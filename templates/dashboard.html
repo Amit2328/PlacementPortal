@@ -1,0 +1,61 @@
+﻿{% extends "index.html" %}
+{% block title %}Student Dashboard | PlacePortal{% endblock %}
+
+{% block content %}
+<main class="dashboard-page">
+    <section class="dashboard-welcome">
+        <span class="eyebrow">STUDENT DASHBOARD</span>
+        <h1>Welcome, {{ student.name }}!</h1>
+        <p>Manage your profile and track your demo job applications from one place.</p>
+    </section>
+
+    <section class="dashboard-profile">
+        <div class="profile-avatar">{{ student.name[0]|upper }}</div>
+        <div>
+            <h2>{{ student.name }}</h2>
+            <p>{{ student.email }}</p>
+            <p class="profile-date">Member since {{ student.created_at }}</p>
+        </div>
+    </section>
+
+    <section class="dashboard-stats">
+        <article class="dashboard-stat">
+            <span class="stat-number">{{ application_count }}</span>
+            <span class="stat-label">Applications Submitted</span>
+        </article>
+        <article class="dashboard-stat">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Sample Job Listings</span>
+        </article>
+    </section>
+
+    <section class="dashboard-actions">
+        <h2>Quick Actions</h2>
+        <div class="dashboard-action-grid">
+            <a class="dashboard-action" href="{{ url_for('jobs') }}">
+                <span class="action-icon">⌕</span>
+                <h3>Explore Jobs</h3>
+                <p>Search sample listings and apply to test the portal.</p>
+                <span class="action-link">Browse jobs ↗</span>
+            </a>
+
+            <a class="dashboard-action" href="{{ url_for('applications') }}">
+                <span class="action-icon">✓</span>
+                <h3>My Applications</h3>
+                <p>See your submitted applications and their current demo status.</p>
+                <span class="action-link">View applications ↗</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="portal-actions">
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button class="job-button" type="submit">Log Out</button>
+        </form>
+    </div>
+
+    <p class="demo-notice">
+        Demo mode: Listed jobs are sample entries, not verified employer vacancies.
+    </p>
+</main>
+{% endblock %}

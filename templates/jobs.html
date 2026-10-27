@@ -1,0 +1,89 @@
+﻿{% extends "index.html" %}
+{% block title %}Find Jobs | PlacePortal{% endblock %}
+
+{% block content %}
+<main class="jobs-page">
+    <section class="jobs-heading">
+        <span class="eyebrow">CAREER OPPORTUNITIES</span>
+        <h1>Find Your Next Opportunity</h1>
+        <p>Search demo listings here or explore more jobs on Indeed India.</p>
+        <div class="demo-notice">
+            Our local listings are examples only. Indeed opens an external job search.
+        </div>
+    </section>
+
+    <section class="indeed-panel">
+        <div class="indeed-brand">
+            <span class="indeed-mark">i</span>
+            <div>
+                <h2>Explore Jobs on Indeed</h2>
+                <p>Search for fresher jobs, internships, remote work and more.</p>
+            </div>
+        </div>
+        <form class="indeed-search" method="GET" action="https://in.indeed.com/jobs" target="_blank">
+            <input type="search" name="q" value="{{ query }}"
+                   placeholder="e.g. Python Developer Fresher"
+                   aria-label="Job title or keyword">
+            <input type="text" name="l" value="India"
+                   placeholder="Location" aria-label="Job location">
+            <button type="submit">Search Indeed ↗</button>
+        </form>
+        <a class="indeed-text-link" href="https://in.indeed.com/" target="_blank" rel="noopener noreferrer">
+            Open Indeed India directly ↗
+        </a>
+    </section>
+
+    <section class="local-jobs-section">
+        <div class="local-jobs-heading">
+            <div>
+                <span class="eyebrow">PLACEPORTAL DEMO</span>
+                <h2>Sample Job Listings</h2>
+            </div>
+            <span class="sample-label">Demo jobs</span>
+        </div>
+
+        <form class="job-search" method="GET" action="{{ url_for('jobs') }}">
+            <input type="search" name="q" value="{{ query }}"
+                   placeholder="Search sample jobs, company or location..."
+                   aria-label="Search sample jobs">
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="jobs-list">
+            {% for job in jobs %}
+            <article class="job-card">
+                <div class="job-card-top">
+                    <div>
+                        <span class="job-type">{{ job.job_type }}</span>
+                        <h3>{{ job.title }}</h3>
+                        <p class="job-company">{{ job.company }}</p>
+                    </div>
+                    <span class="job-id">#{{ job.id }}</span>
+                </div>
+                <p class="job-location">{{ job.location }}</p>
+                <p>{{ job.description }}</p>
+                <p><strong>Eligibility:</strong> {{ job.eligibility }}</p>
+
+                {% if session.get('student_id') %}
+                    {% if job.applied %}
+                        <button class="job-button applied-button" disabled>Already Applied</button>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('apply', job_id=job.id) }}">
+                            <button class="job-button" type="submit">Apply for Demo Job</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a class="job-button job-link" href="{{ url_for('login') }}">Login to Apply</a>
+                {% endif %}
+            </article>
+            {% else %}
+            <div class="no-jobs">
+                <h3>No matching sample jobs found</h3>
+                <p>Try Python, Web or Remote, or search for real listings on Indeed above.</p>
+                <a href="{{ url_for('jobs') }}">Show all sample jobs</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

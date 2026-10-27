@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover career opportunities, placement drives and jobs for students.">
+    <title>{% block title %}PlacePortal | Your Career Starts Here{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a class="logo" href="{{ url_for('home') }}">Place<span>Portal.</span></a>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('home') }}#features">Features</a>
+            <a href="{{ url_for('jobs') }}">Jobs</a>
+            {% if session.get('student_id') %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('applications') }}">My Applications</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </nav>
+        <a class="nav-btn" href="{{ url_for('jobs') }}">Explore Jobs ↗</a>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <div class="eyebrow">✦ YOUR FUTURE STARTS HERE</div>
+                <h1>Your Talent.<br>Your Future.<br><span>Your Opportunity.</span></h1>
+                <p>Discover career opportunities, connect with companies, and take the next step towards your dream career.</p>
+                <div class="actions">
+                    <a class="primary-btn" href="{{ url_for('jobs') }}">Explore Opportunities ↗</a>
+                    {% if session.get('student_id') %}
+                        <a class="secondary-btn" href="{{ url_for('dashboard') }}">My Dashboard</a>
+                    {% else %}
+                        <a class="secondary-btn" href="{{ url_for('register') }}">Create Account</a>
+                    {% endif %}
+                </div>
+                <div class="note"><span></span> Built for students. Designed for success.</div>
+            </div>
+            <div class="visual">
+                <div class="orbit orbit-a"></div>
+                <div class="orbit orbit-b"></div>
+                <div class="career-card">
+                    <div class="card-mark">↗</div>
+                    <p class="card-label">YOUR NEXT CHAPTER</p>
+                    <h2>Dream big.<br>Get hired.</h2>
+                    <div class="line"></div>
+                    <p class="card-desc">Every great career starts with one opportunity.</p>
+                    <div class="card-footer">CAREER GROWTH <span>✦</span></div>
+                </div>
+                <div class="float-tag tag-one">✦ New possibilities</div>
+                <div class="float-tag tag-two">↗ Future ready</div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="section-head">
+                <div class="eyebrow">THE PLACEPORTAL ADVANTAGE</div>
+                <h2>Everything you need to move forward.</h2>
+                <p>One platform to help you prepare, apply and progress.</p>
+            </div>
+            <div class="feature-grid">
+                <article class="feature">
+                    <div class="feature-icon">⌕</div>
+                    <h3>Discover Jobs</h3>
+                    <p>Explore sample job listings and search by role or location.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon">♙</div>
+                    <h3>Build Your Profile</h3>
+                    <p>Keep your student account details accessible in your dashboard.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon">↗</div>
+                    <h3>Track Applications</h3>
+                    <p>Review the applications you have submitted through the portal.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="opportunities" id="jobs">
+            <div class="eyebrow">TAKE THE FIRST STEP</div>
+            <h2>Your next opportunity awaits.</h2>
+            <p>Explore sample listings and try the Placement Portal application workflow.</p>
+            <a class="primary-btn" href="{{ url_for('jobs') }}">Browse Jobs ↗</a>
+        </section>
+    </main>
+
+    <footer>
+        <a class="logo" href="{{ url_for('home') }}">Place<span>Portal.</span></a>
+        <p>Connecting students with opportunities.</p>
+        <p>© 2026 PlacePortal. Demo listings are not verified vacancies.</p>
+    </footer>
+    {% endblock %}
+</body>
+</html>

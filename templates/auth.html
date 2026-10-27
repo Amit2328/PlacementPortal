@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if mode == "register" %}Student Registration{% else %}Student Login{% endif %} | PlacePortal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a class="logo" href="/">Place<span>Portal.</span></a>
+        <a class="nav-btn" href="/">← Back to Home</a>
+    </header>
+
+    <main class="auth-wrap">
+        <section class="auth-card">
+            <div class="eyebrow">YOUR CAREER JOURNEY</div>
+            <h1>{% if mode == "register" %}Create your account{% else %}Welcome back{% endif %}</h1>
+            <p class="auth-intro">
+                {% if mode == "register" %}
+                Join PlacePortal and take the first step towards your future.
+                {% else %}
+                Log in to continue your placement journey.
+                {% endif %}
+            </p>
+
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+
+            <form method="POST" action="">
+                {% if mode == "register" %}
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" maxlength="100"
+                       autocomplete="name" required placeholder="Enter your full name">
+                {% endif %}
+
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" maxlength="254"
+                       autocomplete="email" required placeholder="you@example.com">
+
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"
+                       minlength="8" autocomplete="{% if mode == 'register' %}new-password{% else %}current-password{% endif %}"
+                       required placeholder="{% if mode == 'register' %}At least 8 characters{% else %}Enter your password{% endif %}">
+
+                <button class="primary-btn auth-submit" type="submit">
+                    {% if mode == "register" %}Create Account →{% else %}Login →{% endif %}
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                {% if mode == "register" %}
+                Already registered? <a href="{{ url_for('login') }}">Login here</a>
+                {% else %}
+                New to PlacePortal? <a href="{{ url_for('register') }}">Create an account</a>
+                {% endif %}
+            </p>
+        </section>
+    </main>
+</body>
+</html>

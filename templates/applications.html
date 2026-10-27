@@ -1,0 +1,35 @@
+﻿{% extends "index.html" %}
+{% block content %}
+<section class="applications-page">
+    <span class="eyebrow">YOUR CAREER JOURNEY</span>
+    <h1>My Applications</h1>
+    <p>Track the demo job applications you have submitted.</p>
+
+    <div class="portal-actions">
+        <a href="{{ url_for('jobs') }}">Browse Jobs</a>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <div class="jobs-list" style="margin-top: 28px;">
+        {% for application in applications %}
+        <article class="application-card">
+            <span class="application-status">{{ application.status }}</span>
+            <h2>{{ application.title }}</h2>
+            <p><strong>Company:</strong> {{ application.company }}</p>
+            <p><strong>Location:</strong> {{ application.location }}</p>
+            <p><strong>Applied on:</strong> {{ application.applied_at }}</p>
+        </article>
+        {% else %}
+        <div class="no-jobs">
+            <h2>No applications yet</h2>
+            <p>Browse the sample job listings and apply to test the portal.</p>
+            <a href="{{ url_for('jobs') }}">Explore Jobs</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <p class="demo-notice" style="margin-top: 24px;">
+        Demo mode: Application status is currently tracked locally and is not an employer response.
+    </p>
+</section>
+{% endblock %}
